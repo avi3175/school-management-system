@@ -21,6 +21,8 @@ model User {
   updatedAt DateTime @updatedAt
 
   student   Student?
+  teacher   Teacher? 
+  parent    Parent?
 }
 
 // # 🏫 CLASS MODEL
@@ -31,6 +33,8 @@ model Class {
 
   sections  Section[]
   students  Student[]
+
+  exams     Exam[]      // ✅ Add this
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -64,6 +68,7 @@ model Section {
 
 
 // # 🎓 STUDENT MODEL
+// # 🎓 STUDENT MODEL
 model Student {
   id        String   @id @default(uuid())
 
@@ -85,10 +90,154 @@ model Student {
   gender      String?
   address     String?
 
+  attendance  Attendance[]   // ✅ Add this
+  results     Result[]      // ✅ Add this
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+
+
+
+
+
+
+// # 👨‍🏫 TEACHER MODEL
+model Teacher {
+  id        String   @id @default(uuid())
+
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+
+  designation String?
+  department  String?
+  phone       String?
+  address     String?
+  gender      String?
+  dateOfBirth DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+
+
+
+// # 👨‍👩‍👧 PARENT MODEL
+model Parent {
+  id        String   @id @default(uuid())
+
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+
+  occupation        String?
+  phone             String?
+  address           String?
+  relationToStudent String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+
+
+
+
+// # 📚 SUBJECT MODEL
+model Subject {
+  id        String   @id @default(uuid())
+  name      String
+  code      String   @unique
+  description String?
+
+  exams     Exam[]      // ✅ add this
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+
+
+
+// # ✅ ATTENDANCE MODEL
+model Attendance {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now())
+
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+
+  status    AttendanceStatus
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+}
+
+
+
+
+
+
+
+
+// # 📊 RESULT MODEL
+model Result {
+  id        String   @id @default(uuid())
+
+  examId    String
+  exam      Exam     @relation(fields: [examId], references: [id])
+
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+
+  marksObtained Int
+  grade         String?
+  remarks       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+
+
+
+
+
+
+
+
+// # 📝 EXAM MODEL
+model Exam {
+  id        String   @id @default(uuid())
+  name      String
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  classId   String
+  class     Class    @relation(fields: [classId], references: [id])
+  date      DateTime
+  totalMarks Int
+  passingMarks Int
+
+  results   Result[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
 
 
 

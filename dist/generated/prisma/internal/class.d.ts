@@ -129,14 +129,58 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         omit: OmitOpts;
     }>;
     /**
-     * `prisma.post`: Exposes CRUD operations for the **Post** model.
+     * `prisma.class`: Exposes CRUD operations for the **Class** model.
       * Example usage:
       * ```ts
-      * // Fetch zero or more Posts
-      * const posts = await prisma.post.findMany()
+      * // Fetch zero or more Classes
+      * const classes = await prisma.class.findMany()
       * ```
       */
-    get post(): Prisma.PostDelegate<ExtArgs, {
+    get class(): Prisma.ClassDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.section`: Exposes CRUD operations for the **Section** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Sections
+      * const sections = await prisma.section.findMany()
+      * ```
+      */
+    get section(): Prisma.SectionDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.student`: Exposes CRUD operations for the **Student** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Students
+      * const students = await prisma.student.findMany()
+      * ```
+      */
+    get student(): Prisma.StudentDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.teacher`: Exposes CRUD operations for the **Teacher** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Teachers
+      * const teachers = await prisma.teacher.findMany()
+      * ```
+      */
+    get teacher(): Prisma.TeacherDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.parent`: Exposes CRUD operations for the **Parent** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Parents
+      * const parents = await prisma.parent.findMany()
+      * ```
+      */
+    get parent(): Prisma.ParentDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
 }

@@ -27,8 +27,28 @@ export { Prisma };
  */
 export type User = Prisma.UserModel;
 /**
- * Model Post
+ * Model Class
  *
  */
-export type Post = Prisma.PostModel;
+export type Class = Prisma.ClassModel;
+/**
+ * Model Section
+ *
+ */
+export type Section = Prisma.SectionModel;
+/**
+ * Model Student
+ *
+ */
+export type Student = Prisma.StudentModel;
+/**
+ * Model Teacher
+ *
+ */
+export type Teacher = Prisma.TeacherModel;
+/**
+ * Model Parent
+ *
+ */
+export type Parent = Prisma.ParentModel;
 //# sourceMappingURL=client.d.ts.map

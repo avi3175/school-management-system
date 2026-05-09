@@ -7,6 +7,10 @@
 *
 * 🟢 You can import this file directly.
 */
-// This file is empty because there are no enums in the schema.
-export {};
+export const Role = {
+    ADMIN: 'ADMIN',
+    TEACHER: 'TEACHER',
+    STUDENT: 'STUDENT',
+    PARENT: 'PARENT'
+};
 //# sourceMappingURL=enums.js.map

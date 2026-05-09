@@ -69,7 +69,11 @@ export const JsonNull = runtime.JsonNull;
 export const AnyNull = runtime.AnyNull;
 export const ModelName = {
     User: 'User',
-    Post: 'Post'
+    Class: 'Class',
+    Section: 'Section',
+    Student: 'Student',
+    Teacher: 'Teacher',
+    Parent: 'Parent'
 };
 /**
  * Enums
@@ -82,15 +86,64 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 });
 export const UserScalarFieldEnum = {
     id: 'id',
+    name: 'name',
     email: 'email',
-    name: 'name'
+    password: 'password',
+    role: 'role',
+    imageUrl: 'imageUrl',
+    imageId: 'imageId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
-export const PostScalarFieldEnum = {
+export const ClassScalarFieldEnum = {
     id: 'id',
-    title: 'title',
-    content: 'content',
-    published: 'published',
-    authorId: 'authorId'
+    name: 'name',
+    level: 'level',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const SectionScalarFieldEnum = {
+    id: 'id',
+    name: 'name',
+    classId: 'classId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const StudentScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    classId: 'classId',
+    sectionId: 'sectionId',
+    roll: 'roll',
+    parentName: 'parentName',
+    parentPhone: 'parentPhone',
+    dateOfBirth: 'dateOfBirth',
+    gender: 'gender',
+    address: 'address',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const TeacherScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    designation: 'designation',
+    department: 'department',
+    phone: 'phone',
+    address: 'address',
+    gender: 'gender',
+    dateOfBirth: 'dateOfBirth',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const ParentScalarFieldEnum = {
+    id: 'id',
+    userId: 'userId',
+    occupation: 'occupation',
+    phone: 'phone',
+    address: 'address',
+    relationToStudent: 'relationToStudent',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
 };
 export const SortOrder = {
     asc: 'asc',
