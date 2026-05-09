@@ -1,46 +1,31 @@
 import { Router } from "express";
-
 import {
   createStudent,
+  getMyProfile,
+  updateMyProfile,
   getAllStudents,
   getSingleStudent,
   updateStudent,
   deleteStudent,
 } from "./student.controller.js";
-
 import { authenticate } from "../../middlewares/auth.middleware.js";
 import { authorizeRoles } from "../../middlewares/role.middleware.js";
 
 const router = Router();
 
-// 🔒 Create Student (ADMIN only)
-router.post(
-  "/",
-  authenticate,
-  authorizeRoles("ADMIN"),
-  createStudent
-);
+// 🌐 Public registration
+router.post("/", createStudent);
 
-// 👀 Get all students (logged in users)
+// 👤 My Profile (for logged-in student)
+router.get("/me", authenticate, authorizeRoles("STUDENT"), getMyProfile);
+router.patch("/me", authenticate, authorizeRoles("STUDENT"), updateMyProfile);
+
+// 👀 View routes (authenticated users)
 router.get("/", authenticate, getAllStudents);
-
-// 📄 Get single student
 router.get("/:id", authenticate, getSingleStudent);
 
-// ✏️ Update student (ADMIN only)
-router.patch(
-  "/:id",
-  authenticate,
-  authorizeRoles("ADMIN"),
-  updateStudent
-);
-
-// ❌ Delete student (ADMIN only)
-router.delete(
-  "/:id",
-  authenticate,
-  authorizeRoles("ADMIN"),
-  deleteStudent
-);
+// 🔒 Admin routes
+router.patch("/:id", authenticate, authorizeRoles("ADMIN"), updateStudent);
+router.delete("/:id", authenticate, authorizeRoles("ADMIN"), deleteStudent);
 
 export default router;

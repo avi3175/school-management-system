@@ -12,6 +12,10 @@ export const createTeacherSchema = z.object({
   address: z.string().optional(),
   gender: z.string().optional(),
   dateOfBirth: z.string().optional(),
+
+  classId: z.string().optional(),
+  sectionId: z.string().optional(),
+  subjectIds: z.array(z.string()).optional(),
 });
 
 export const updateTeacherSchema = z.object({
@@ -23,4 +27,8 @@ export const updateTeacherSchema = z.object({
   address: z.string().optional(),
   gender: z.string().optional(),
   dateOfBirth: z.string().optional(),
+
+  classId: z.string().nullable().optional(),
+  sectionId: z.string().nullable().optional(),
+  subjectIds: z.array(z.string()).optional(),
 });

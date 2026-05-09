@@ -133,3 +133,17 @@ export const deleteStudentService = async (id: string) => {
 
   return student;
 };
+
+
+
+// 📄 GET STUDENT BY USER ID (for "my profile")
+export const getStudentByUserIdService = async (userId: string) => {
+  return prisma.student.findUnique({
+    where: { userId },
+    include: {
+      user: true,
+      class: true,
+      section: true,
+    },
+  });
+};

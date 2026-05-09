@@ -104,3 +104,15 @@ export const deleteParentService = async (id: string) => {
 
   return parent;
 };
+
+
+
+
+
+// 📄 GET PARENT BY USER ID (for "my profile")
+export const getParentByUserIdService = async (userId: string) => {
+  return prisma.parent.findUnique({
+    where: { userId },
+    include: { user: true },
+  });
+};

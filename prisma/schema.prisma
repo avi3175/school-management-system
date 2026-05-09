@@ -35,6 +35,7 @@ model Class {
   students  Student[]
 
   exams     Exam[]      // ✅ Add this
+  teachers  Teacher[]   // ✅ Add
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -49,6 +50,7 @@ model Section {
   class     Class    @relation(fields: [classId], references: [id])
 
   students  Student[]
+  teachers  Teacher[]   // ✅ Add
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -104,6 +106,7 @@ model Student {
 
 
 // # 👨‍🏫 TEACHER MODEL
+// Update Teacher model
 model Teacher {
   id        String   @id @default(uuid())
 
@@ -117,10 +120,15 @@ model Teacher {
   gender      String?
   dateOfBirth DateTime?
 
+  classId     String?
+  class       Class?    @relation(fields: [classId], references: [id])
+  sectionId   String?
+  section     Section?  @relation(fields: [sectionId], references: [id])
+  subjects    Subject[] // ✅ Add this — Teacher can teach multiple subjects
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
 
 
 
@@ -156,7 +164,8 @@ model Subject {
   description String?
 
   exams     Exam[]      // ✅ add this
-
+  teachers  Teacher[]   // ✅ Add
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

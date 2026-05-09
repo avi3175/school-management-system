@@ -1,6 +1,8 @@
 import { Router } from "express";
 import {
   createTeacher,
+  getMyProfile,
+  updateMyProfile,
   getAllTeachers,
   getSingleTeacher,
   updateTeacher,
@@ -11,8 +13,12 @@ import { authorizeRoles } from "../../middlewares/role.middleware.js";
 
 const router = Router();
 
-// 🔒 Create Teacher (ADMIN only)
-router.post("/", authenticate, authorizeRoles("ADMIN"), createTeacher);
+// 🌐 Public registration
+router.post("/", createTeacher);
+
+// 👤 My Profile (for logged-in teacher)
+router.get("/me", authenticate, authorizeRoles("TEACHER"), getMyProfile);
+router.patch("/me", authenticate, authorizeRoles("TEACHER"), updateMyProfile);
 
 // 👀 Get all teachers (authenticated users)
 router.get("/", authenticate, getAllTeachers);
