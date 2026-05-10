@@ -9,6 +9,7 @@ import {
   getStudentByUserIdService,
   updateStudentService,
   deleteStudentService,
+  getStudentDashboardService,  // ✅ add
 } from "./student.service.js";
 
 // ➕ Create Student
@@ -100,4 +101,25 @@ export const deleteStudent = asyncHandler(async (req: Request, res: Response) =>
   const student = await deleteStudentService(id);
 
   res.json({ success: true, message: "Student deleted successfully", data: student });
+});
+
+
+
+
+
+
+
+// 📊 My Dashboard
+export const getMyDashboard = asyncHandler(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+
+  const student = await getStudentByUserIdService(userId);
+
+  if (!student) {
+    return res.status(404).json({ success: false, message: "Student not found" });
+  }
+
+  const dashboard = await getStudentDashboardService(student.id);
+
+  res.json({ success: true, data: dashboard });
 });

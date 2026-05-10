@@ -94,6 +94,7 @@ model Student {
 
   attendance  Attendance[]   // ✅ Add this
   results     Result[]      // ✅ Add this
+  parents     Parent[]     // ✅ Add
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -135,6 +136,7 @@ model Teacher {
 
 
 // # 👨‍👩‍👧 PARENT MODEL
+// # 👨‍👩‍👧 PARENT MODEL
 model Parent {
   id        String   @id @default(uuid())
 
@@ -145,11 +147,12 @@ model Parent {
   phone             String?
   address           String?
   relationToStudent String?
+  studentId         String?    // ✅ Add
+  student           Student?   @relation(fields: [studentId], references: [id])  // ✅ Add
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
 
 
 

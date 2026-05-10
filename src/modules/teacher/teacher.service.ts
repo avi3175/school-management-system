@@ -202,3 +202,101 @@ export const deleteTeacherService = async (id: string) => {
 
   return teacher;
 };
+
+
+
+
+
+
+// 📊 TEACHER DASHBOARD
+export const getTeacherDashboardService = async (teacherId: string) => {
+  const teacher = await prisma.teacher.findUnique({
+    where: { id: teacherId },
+    include: {
+      user: true,
+      class: true,
+      section: true,
+      subjects: true,
+    },
+  });
+
+  if (!teacher) throw new Error("Teacher not found");
+
+  // Get students in teacher's class & section
+  const students = teacher.classId
+    ? await prisma.student.findMany({
+        where: {
+          classId: teacher.classId,
+          ...(teacher.sectionId && { sectionId: teacher.sectionId }),
+        },
+        include: {
+          user: true,
+        },
+        orderBy: { roll: "asc" },
+      })
+    : [];
+
+  // Today's attendance for their class/section
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const todayAttendance = teacher.classId
+    ? await prisma.attendance.findMany({
+        where: {
+          date: { gte: today, lt: tomorrow },
+          student: {
+            classId: teacher.classId,
+            ...(teacher.sectionId && { sectionId: teacher.sectionId }),
+          },
+        },
+        include: {
+          student: {
+            include: { user: true },
+          },
+        },
+      })
+    : [];
+
+  // Attendance stats
+  const presentCount = todayAttendance.filter((a) => a.status === "PRESENT").length;
+  const absentCount = todayAttendance.filter((a) => a.status === "ABSENT").length;
+  const lateCount = todayAttendance.filter((a) => a.status === "LATE").length;
+
+  return {
+    profile: {
+      id: teacher.id,
+      name: teacher.user.name,
+      email: teacher.user.email,
+      designation: teacher.designation,
+      department: teacher.department,
+      phone: teacher.phone,
+      imageUrl: teacher.user.imageUrl,
+    },
+    myClass: teacher.class
+      ? { id: teacher.class.id, name: teacher.class.name, level: teacher.class.level }
+      : null,
+    mySection: teacher.section
+      ? { id: teacher.section.id, name: teacher.section.name }
+      : null,
+    mySubjects: teacher.subjects.map((s) => ({
+      id: s.id,
+      name: s.name,
+      code: s.code,
+    })),
+    totalStudents: students.length,
+    todayAttendance: {
+      present: presentCount,
+      absent: absentCount,
+      late: lateCount,
+      unmarked: students.length - (presentCount + absentCount + lateCount),
+    },
+    myStudents: students.map((s) => ({
+      id: s.id,
+      name: s.user.name,
+      roll: s.roll,
+      gender: s.gender,
+    })),
+  };
+};

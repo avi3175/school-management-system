@@ -9,6 +9,7 @@ import {
   getTeacherByUserIdService,
   updateTeacherService,
   deleteTeacherService,
+  getTeacherDashboardService,  // ✅ add this
 } from "./teacher.service.js";
 
 // ➕ Create Teacher (Public registration)
@@ -146,4 +147,26 @@ export const deleteTeacher = asyncHandler(async (req: Request, res: Response) =>
     message: "Teacher deleted successfully",
     data: teacher,
   });
+});
+
+
+
+
+
+
+
+
+// 📊 My Dashboard
+export const getMyDashboard = asyncHandler(async (req: Request, res: Response) => {
+  const userId = (req as any).user.id;
+
+  const teacher = await getTeacherByUserIdService(userId);
+
+  if (!teacher) {
+    return res.status(404).json({ success: false, message: "Teacher not found" });
+  }
+
+  const dashboard = await getTeacherDashboardService(teacher.id);
+
+  res.json({ success: true, data: dashboard });
 });

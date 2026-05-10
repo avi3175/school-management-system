@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createParent,
   getMyProfile,
+  getMyDashboard,
   updateMyProfile,
   getAllParents,
   getSingleParent,
@@ -16,11 +17,14 @@ const router = Router();
 // 🌐 Public registration
 router.post("/", createParent);
 
-// 👤 My Profile (for logged-in parent)
+// 📊 My Dashboard
+router.get("/me/dashboard", authenticate, authorizeRoles("PARENT"), getMyDashboard);
+
+// 👤 My Profile
 router.get("/me", authenticate, authorizeRoles("PARENT"), getMyProfile);
 router.patch("/me", authenticate, authorizeRoles("PARENT"), updateMyProfile);
 
-// 👀 View routes (authenticated users)
+// 👀 View routes
 router.get("/", authenticate, getAllParents);
 router.get("/:id", authenticate, getSingleParent);
 

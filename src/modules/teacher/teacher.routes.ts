@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   createTeacher,
   getMyProfile,
+  getMyDashboard,
   updateMyProfile,
   getAllTeachers,
   getSingleTeacher,
@@ -15,6 +16,9 @@ const router = Router();
 
 // 🌐 Public registration
 router.post("/", createTeacher);
+
+// 📊 My Dashboard (for logged-in teacher)
+router.get("/me/dashboard", authenticate, authorizeRoles("TEACHER"), getMyDashboard);
 
 // 👤 My Profile (for logged-in teacher)
 router.get("/me", authenticate, authorizeRoles("TEACHER"), getMyProfile);

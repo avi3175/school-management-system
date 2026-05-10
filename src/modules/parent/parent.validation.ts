@@ -10,6 +10,7 @@ export const createParentSchema = z.object({
   phone: z.string().optional(),
   address: z.string().optional(),
   relationToStudent: z.string().optional(),
+  studentId: z.string().optional(),  // ✅ Add
 });
 
 export const updateParentSchema = z.object({
@@ -19,4 +20,5 @@ export const updateParentSchema = z.object({
   phone: z.string().optional(),
   address: z.string().optional(),
   relationToStudent: z.string().optional(),
+  studentId: z.string().nullable().optional(),  // ✅ Add
 });
