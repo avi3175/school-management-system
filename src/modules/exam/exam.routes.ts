@@ -11,10 +11,11 @@ import { authorizeRoles } from "../../middlewares/role.middleware.js";
 
 const router = Router();
 
-router.post("/", authenticate, authorizeRoles("ADMIN"), createExam);
+router.post("/", authenticate, authorizeRoles("ADMIN", "TEACHER"), createExam);
 router.get("/", authenticate, getAllExams);
 router.get("/:id", authenticate, getSingleExam);
-router.patch("/:id", authenticate, authorizeRoles("ADMIN"), updateExam);
-router.delete("/:id", authenticate, authorizeRoles("ADMIN"), deleteExam);
+router.patch("/:id", authenticate, authorizeRoles("ADMIN", "TEACHER"), updateExam);
+// router.delete("/:id", authenticate, authorizeRoles("ADMIN"), deleteExam);
+router.delete("/:id", authenticate, authorizeRoles("ADMIN", "TEACHER"), deleteExam);
 
 export default router;
